@@ -1,0 +1,559 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MixVault | Cocktail & Mocktail Recipes</title>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background: #101414;
+      color: #f5f5f0;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 22px 7%;
+      background: #171e1c;
+      border-bottom: 1px solid #303a35;
+      flex-wrap: wrap;
+      gap: 15px;
+    }
+
+    .logo {
+      font-size: 26px;
+      font-weight: bold;
+      color: #c7f36b;
+    }
+
+    nav {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    nav a {
+      color: #eeeeea;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    nav a:hover {
+      color: #c7f36b;
+    }
+
+    .hero {
+      padding: 75px 7% 55px;
+      background: linear-gradient(120deg, #192d26, #101414);
+    }
+
+    .hero small {
+      color: #c7f36b;
+      letter-spacing: 3px;
+      font-weight: bold;
+    }
+
+    .hero h1 {
+      font-size: clamp(35px, 6vw, 65px);
+      margin: 22px 0;
+      max-width: 750px;
+    }
+
+    .hero h1 span {
+      color: #c7f36b;
+    }
+
+    .hero p {
+      color: #b9c2bb;
+      line-height: 1.8;
+      max-width: 600px;
+    }
+
+    .search-area {
+      display: flex;
+      gap: 12px;
+      margin-top: 30px;
+      max-width: 650px;
+    }
+
+    input, select {
+      padding: 14px;
+      border: 1px solid #39443d;
+      border-radius: 8px;
+      background: #202825;
+      color: white;
+      font-size: 15px;
+    }
+
+    input {
+      flex: 1;
+      min-width: 0;
+    }
+
+    button {
+      padding: 12px 18px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .primary {
+      background: #c7f36b;
+      color: #142016;
+    }
+
+    .primary:hover {
+      background: #d8ff91;
+    }
+
+    main {
+      padding: 45px 7%;
+    }
+
+    .section-heading {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 24px;
+      gap: 15px;
+      flex-wrap: wrap;
+    }
+
+    .section-heading h2 {
+      font-size: 28px;
+    }
+
+    .filters {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 30px;
+    }
+
+    .filter-btn {
+      background: #222a26;
+      color: #dce2dc;
+      border: 1px solid #39443d;
+    }
+
+    .filter-btn.active {
+      background: #c7f36b;
+      color: #142016;
+      border-color: #c7f36b;
+    }
+
+    .recipe-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(245px, 1fr));
+      gap: 22px;
+    }
+
+    .recipe-card {
+      background: #1a211e;
+      border: 1px solid #303a35;
+      border-radius: 14px;
+      overflow: hidden;
+      transition: transform 0.2s;
+    }
+
+    .recipe-card:hover {
+      transform: translateY(-5px);
+    }
+
+    .drink-art {
+      min-height: 165px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 75px;
+      background: linear-gradient(135deg, #293c31, #18201c);
+    }
+
+    .recipe-content {
+      padding: 20px;
+    }
+
+    .tag {
+      display: inline-block;
+      font-size: 12px;
+      color: #c7f36b;
+      background: #293a2b;
+      padding: 6px 9px;
+      border-radius: 20px;
+      margin-bottom: 12px;
+    }
+
+    .recipe-content h3 {
+      margin-bottom: 10px;
+      font-size: 20px;
+    }
+
+    .recipe-content p {
+      color: #b9c2bb;
+      line-height: 1.6;
+      font-size: 14px;
+      margin-bottom: 16px;
+    }
+
+    .card-actions {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .details-btn {
+      background: #303a35;
+      color: white;
+    }
+
+    .details-btn:hover {
+      background: #414e46;
+    }
+
+    .favorite-btn {
+      background: transparent;
+      color: #ff8585;
+      font-size: 22px;
+      padding: 5px 10px;
+    }
+
+    .empty {
+      color: #b9c2bb;
+      padding: 30px 0;
+      grid-column: 1 / -1;
+    }
+
+    .details {
+      margin-top: 18px;
+      padding-top: 15px;
+      border-top: 1px solid #39443d;
+      font-size: 14px;
+      line-height: 1.8;
+      color: #dce2dc;
+    }
+
+    .details h4 {
+      color: #c7f36b;
+      margin: 10px 0 4px;
+    }
+
+    footer {
+      padding: 30px 7%;
+      text-align: center;
+      background: #171e1c;
+      color: #aab4ac;
+      line-height: 1.8;
+    }
+
+    @media (max-width: 600px) {
+      header {
+        padding: 20px;
+      }
+
+      .hero, main {
+        padding: 35px 20px;
+      }
+
+      .search-area {
+        flex-direction: column;
+      }
+
+      .search-area button {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <div class="logo">🍸 MixVault</div>
+  <nav>
+    <a href="#" onclick="setFilter('All'); return false;">Home</a>
+    <a href="#recipes" onclick="setFilter('Cocktail');">Cocktails</a>
+    <a href="#recipes" onclick="setFilter('Mocktail');">Mocktails</a>
+    <a href="#recipes" onclick="showFavorites(); return false;">♥ Favorites</a>
+  </nav>
+</header>
+
+<section class="hero">
+  <small>YOUR PERSONAL RECIPE COLLECTION</small>
+
+  <h1>Discover your next <span>perfect mix.</span></h1>
+
+  <p>
+    Explore refreshing mocktails and classic cocktails.
+    Find recipes, check ingredients, follow instructions,
+    and save your favorite drinks in one beautiful vault.
+  </p>
+
+  <div class="search-area">
+    <input
+      type="text"
+      id="searchInput"
+      placeholder="Search drinks or ingredients..."
+      aria-label="Search recipes"
+    >
+    <button class="primary" onclick="renderRecipes()">Search Recipes</button>
+  </div>
+</section>
+
+<main id="recipes">
+  <div class="section-heading">
+    <h2 id="sectionTitle">Explore Recipes</h2>
+    <span id="recipeCount">0 recipes</span>
+  </div>
+
+  <div class="filters">
+    <button class="filter-btn active" onclick="setFilter('All', this)">All Recipes</button>
+    <button class="filter-btn" onclick="setFilter('Cocktail', this)">Cocktails</button>
+    <button class="filter-btn" onclick="setFilter('Mocktail', this)">Mocktails</button>
+    <button class="filter-btn" onclick="showFavorites()">♥ Favorites</button>
+  </div>
+
+  <div class="recipe-grid" id="recipeGrid"></div>
+</main>
+
+<footer>
+  <h3>🍸 MixVault</h3>
+  <p>Your recipes, your collection, your perfect mix.</p>
+  <p>Enjoy responsibly. Alcoholic drinks are for adults of legal drinking age only.</p>
+</footer>
+
+<script>
+  const recipes = [
+    {
+      id: 1,
+      name: "Classic Mojito",
+      type: "Cocktail",
+      emoji: "🍃",
+      time: "5 minutes",
+      description: "A refreshing mint and lime drink.",
+      ingredients: ["50 ml white rum", "Fresh mint leaves", "Half a lime",
+                    "2 tsp sugar", "Soda water", "Ice"],
+      steps: "Muddle mint, lime and sugar gently. Add rum and ice. Top with soda water and stir."
+    },
+    {
+      id: 2,
+      name: "Virgin Mojito",
+      type: "Mocktail",
+      emoji: "🍋",
+      time: "5 minutes",
+      description: "A fresh, citrusy drink without alcohol.",
+      ingredients: ["Fresh mint leaves", "Half a lime", "2 tsp sugar",
+                    "Soda water", "Ice"],
+      steps: "Gently muddle mint, lime and sugar. Add ice and soda water. Stir and serve."
+    },
+    {
+      id: 3,
+      name: "Strawberry Daiquiri",
+      type: "Cocktail",
+      emoji: "🍓",
+      time: "7 minutes",
+      description: "A fruity strawberry and lime cocktail.",
+      ingredients: ["50 ml white rum", "Fresh strawberries",
+                    "20 ml lime juice", "15 ml sugar syrup", "Ice"],
+      steps: "Blend the strawberries, rum, lime juice, sugar syrup and ice until smooth. Serve chilled."
+    },
+    {
+      id: 4,
+      name: "Sunrise Cooler",
+      type: "Mocktail",
+      emoji: "🍊",
+      time: "4 minutes",
+      description: "A colorful orange and grenadine cooler.",
+      ingredients: ["120 ml orange juice", "15 ml grenadine syrup",
+                    "Ice", "Orange slice"],
+      steps: "Fill a glass with ice and orange juice. Slowly pour grenadine down the side. Garnish with orange."
+    },
+    {
+      id: 5,
+      name: "Classic Margarita",
+      type: "Cocktail",
+      emoji: "🍹",
+      time: "5 minutes",
+      description: "A zesty tequila and lime classic.",
+      ingredients: ["50 ml tequila", "25 ml lime juice",
+                    "20 ml orange liqueur", "Ice", "Salt for the rim"],
+      steps: "Shake tequila, lime juice, orange liqueur and ice. Strain into a glass with a salted rim."
+    },
+    {
+      id: 6,
+      name: "Watermelon Fizz",
+      type: "Mocktail",
+      emoji: "🍉",
+      time: "5 minutes",
+      description: "A sweet watermelon drink with sparkling water.",
+      ingredients: ["1 cup watermelon cubes", "15 ml lime juice",
+                    "Sparkling water", "Ice", "Mint"],
+      steps: "Blend and strain the watermelon. Add lime juice and ice, top with sparkling water, and garnish with mint."
+    },
+    {
+      id: 7,
+      name: "Piña Colada",
+      type: "Cocktail",
+      emoji: "🥥",
+      time: "5 minutes",
+      description: "A creamy pineapple and coconut cocktail.",
+      ingredients: ["50 ml white rum", "90 ml pineapple juice",
+                    "30 ml coconut cream", "Ice"],
+      steps: "Blend all ingredients with ice until creamy. Pour into a chilled glass."
+    },
+    {
+      id: 8,
+      name: "Mango Delight",
+      type: "Mocktail",
+      emoji: "🥭",
+      time: "5 minutes",
+      description: "A tropical mango drink with a citrus twist.",
+      ingredients: ["1 ripe mango", "100 ml orange juice",
+                    "15 ml lime juice", "Ice", "Mint"],
+      steps: "Blend mango, orange juice and lime juice. Pour over ice and garnish with mint."
+    }
+  ];
+
+  let currentFilter = "All";
+  let favoritesOnly = false;
+
+  let favorites = JSON.parse(
+    localStorage.getItem("mixvaultFavorites") || "[]"
+  );
+
+  function setFilter(type, button) {
+    currentFilter = type;
+    favoritesOnly = false;
+
+    document.getElementById("sectionTitle").textContent =
+      type === "All" ? "Explore Recipes" : type + " Recipes";
+
+    document.querySelectorAll(".filter-btn").forEach(btn =>
+      btn.classList.remove("active")
+    );
+
+    if (button) {
+      button.classList.add("active");
+    } else {
+      document.querySelectorAll(".filter-btn")[0].classList.add("active");
+    }
+
+    renderRecipes();
+  }
+
+  function showFavorites() {
+    favoritesOnly = true;
+    document.getElementById("sectionTitle").textContent = "Your Favorites";
+
+    document.querySelectorAll(".filter-btn").forEach(btn =>
+      btn.classList.remove("active")
+    );
+
+    document.getElementById("recipes").scrollIntoView({ behavior: "smooth" });
+    renderRecipes();
+  }
+
+  function toggleFavorite(id) {
+    if (favorites.includes(id)) {
+      favorites = favorites.filter(favoriteId => favoriteId !== id);
+    } else {
+      favorites.push(id);
+    }
+
+    localStorage.setItem("mixvaultFavorites", JSON.stringify(favorites));
+    renderRecipes();
+  }
+
+  function renderRecipes() {
+    const query = document.getElementById("searchInput")
+      .value.toLowerCase().trim();
+
+    const filtered = recipes.filter(recipe => {
+      const matchesType =
+        currentFilter === "All" || recipe.type === currentFilter;
+
+      const matchesFavorite =
+        !favoritesOnly || favorites.includes(recipe.id);
+
+      const searchableText = [
+        recipe.name,
+        recipe.type,
+        recipe.description,
+        ...recipe.ingredients
+      ].join(" ").toLowerCase();
+
+      return matchesType && matchesFavorite &&
+        searchableText.includes(query);
+    });
+
+    document.getElementById("recipeCount").textContent =
+      filtered.length + (filtered.length === 1 ? " recipe" : " recipes");
+
+    const grid = document.getElementById("recipeGrid");
+
+    if (filtered.length === 0) {
+      grid.innerHTML =
+        '<p class="empty">No recipes found. Try another search or explore all recipes.</p>';
+      return;
+    }
+
+    grid.innerHTML = filtered.map(recipe => `
+      <article class="recipe-card">
+        <div class="drink-art">${recipe.emoji}</div>
+
+        <div class="recipe-content">
+          <span class="tag">${recipe.type}</span>
+          <h3>${recipe.name}</h3>
+          <p>${recipe.description}</p>
+          <p>⏱ ${recipe.time}</p>
+
+          <div class="card-actions">
+            <button class="details-btn"
+              onclick="toggleDetails(${recipe.id})">
+              View Recipe
+            </button>
+
+            <button class="favorite-btn"
+              aria-label="Toggle favorite for ${recipe.name}"
+              onclick="toggleFavorite(${recipe.id})">
+              ${favorites.includes(recipe.id) ? "♥" : "♡"}
+            </button>
+          </div>
+
+          <div class="details" id="details-${recipe.id}" hidden>
+            <h4>Ingredients</h4>
+            <ul>
+              ${recipe.ingredients.map(item => `<li>${item}</li>`).join("")}
+            </ul>
+            <h4>Preparation</h4>
+            <p>${recipe.steps}</p>
+          </div>
+        </div>
+      </article>
+    `).join("");
+  }
+
+  function toggleDetails(id) {
+    const details = document.getElementById("details-" + id);
+    details.hidden = !details.hidden;
+  }
+
+  document.getElementById("searchInput")
+    .addEventListener("input", renderRecipes);
+
+  renderRecipes();
+</script>
+
+</body>
+</html>
